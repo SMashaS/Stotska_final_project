@@ -80,4 +80,3 @@ class TestForgotPassword:
         self.session.delete("https://qauto.forstudy.space/api/users")
 
 # pytest -v forgot_password_tests.py
-

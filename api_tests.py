@@ -9,8 +9,8 @@ class TestApiChecks:
     def setup_class(self):
         self.driver = Driver.get_chrome_driver()
         self.session = requests.session()
-        register_user_data = RegisterPostModel("Vasyl", "Fedorchuk", "fedorchuck_vasyl@gmail.com",
-                                               "Vasyl1997V", "Vasyl1997V")
+        register_user_data = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
+                                               "Egor1997E", "Egor1997E")
         self.session.post("https://qauto.forstudy.space/api/auth/signup", json=register_user_data.__dict__)
 
     def setup_method(self):
@@ -18,16 +18,15 @@ class TestApiChecks:
 
     def test_check_successful_registration_api(self):
         self.session.delete("https://qauto.forstudy.space/api/users")
-
-        data_for_register_user = RegisterPostModel("Vasyl", "Fedorchuk", "fedorchuck_vasyl@gmail.com",
-                                               "Vasyl1997V", "Vasyl1997V")
+        data_for_register_user = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
+                                               "Egor1997E", "Egor1997E")
         registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()["status"] == "ok"
 
     def test_check_registration_with_registered_user(self):
-        data_for_register_user = RegisterPostModel("Vasyl", "Fedorchuk", "fedorchuck_vasyl@gmail.com",
-                                                   "Vasyl1997V", "Vasyl1997V")
+        data_for_register_user = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
+                                                   "Egor1997E", "Egor1997E")
         registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()["status"] == "error"
@@ -43,13 +42,13 @@ class TestApiChecks:
             assert True
 
     @pytest.mark.parametrize("name, last_name, email, password, repeat_password, expected_message", [
-        ("V", "Fedorchuk", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V",
+        ("E", "Fedorchuk", "fedorchuck_egor@gmail.com", "Egor1997E", "Egor1997E",
          "Name has to be from 2 to 20 characters long"),
-        ("Vasyl", "F@", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V", "Last Name is invalid"),
-        ("Vasyl", "Fedorchuck", "@gmail.com", "Vasyl1997V", "Vasyl1997V", "Email is incorrect"),
-        ("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "VasylVasyl", "VasylVasyl",
+        ("Egor", "F@", "fedorchuck_egor@gmail.com", "Egor1997E", "Egor1997E", "Last Name is invalid"),
+        ("Egor", "Fedorchuck", "@gmail.com", "Egor1997E", "Egor1997E", "Email is incorrect"),
+        ("Egor", "Fedorchuck", "fedorchuck_egor@gmail.com", "EgorEgor", "EgorEgor",
          "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"),
-        ("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vas1997VV", "Passwords do not match")
+        ("Egor", "Fedorchuck", "fedorchuck_egor@gmail.com", "Egor1997E", "Egor1997EE", "Passwords do not match")
     ])
     def test_registration_with_incorrect_data(self, name, last_name, email, password, repeat_password,
                                               expected_message):
@@ -58,6 +57,7 @@ class TestApiChecks:
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()['status'] == 'error'
         assert registered_user.json()["message"] == expected_message
+
     def teardown_method(self):
         pass
 

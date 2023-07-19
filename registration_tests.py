@@ -149,7 +149,7 @@ class TestRegistration:
     def test_check_last_name_not_valid_data(self, last_name):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_last_name_field().fill_field('@@')
+        self.register_page.get_last_name_field().fill_field(last_name)
         self.register_page.get_name_field().click()
         assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
 
