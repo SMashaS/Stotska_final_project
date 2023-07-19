@@ -1,4 +1,5 @@
 import time
+import pytest
 from models.register_post_model import RegisterPostModel
 from models.signin_post_model import SigninPostModel
 import requests
@@ -76,37 +77,22 @@ class TestLoginLogout:
         self.login_page.get_password_field().click()
         assert self.login_page.get_email_required_alert().is_displayed()
 
-    def test_check_email_incorrect_data(self):
+    @pytest.mark.parametrize("email", [
+        '@@hm.co',
+        ' test@test.com',
+        'test@test.com ',
+        'invalid.email@domain',
+        'invalidgmail.com',
+        'inv alid@gmail.com',
+        '@example.com',
+        'user@',
+        'user@.com',
+        'user@example..com'
+    ])
+    def test_check_email_incorrect_data(self, email):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('@@hm.co')
+        self.login_page.get_email_field().fill_field(email)
         self.login_page.get_password_field().click()
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field(' test@test.com')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('test@test.com ')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('invalid.email@domain')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('invalidgmail.com')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('inv alid@gmail.com')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('@example.com')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('user@')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('user@.com')
-        assert self.login_page.get_email_not_valid_data_alert().is_displayed()
-        self.login_page.get_email_field().clean_field()
-        self.login_page.get_email_field().fill_field('user@example..com')
         assert self.login_page.get_email_not_valid_data_alert().is_displayed()
 
     def test_user_logout(self):

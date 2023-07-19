@@ -89,106 +89,68 @@ class TestRegistration:
         self.register_page.get_name_field().click()
         assert self.register_page.get_repeat_password_required_alert().is_displayed()
 
-    def test_check_name_field_length(self):
+    @pytest.mark.parametrize("name", [
+        'A',
+        'abcabcabcabcabcabcabc'
+    ])
+    def test_check_name_field_length(self, name):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_name_field().fill_field('A')
+        self.register_page.get_name_field().fill_field(name)
         self.register_page.get_last_name_field().click()
         assert self.register_page.get_name_not_valid_length_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('abcabcabcabcabcabcabc')
-        self.register_page.get_name_field().click()
-        assert self.register_page.get_name_not_valid_length_alert().is_displayed()
 
-    def test_check_last_name_field_length(self):
+    @pytest.mark.parametrize("last_name", [
+        'A',
+        'abcabcabcabcabcabcabc'
+    ])
+    def test_check_last_name_field_length(self, last_name):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_last_name_field().fill_field('A')
-        self.register_page.get_name_field().click()
-        assert self.register_page.get_last_name_not_valid_length_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('abcabcabcabcabcabcabc')
+        self.register_page.get_last_name_field().fill_field(last_name)
         self.register_page.get_name_field().click()
         assert self.register_page.get_last_name_not_valid_length_alert().is_displayed()
 
-    def test_check_name_not_valid_data(self):
+    @pytest.mark.parametrize("name", [
+        '@@',
+        '##',
+        '!!',
+        '$$',
+        '**',
+        '::',
+        '()',
+        '  ',
+        '..',
+        ',,',
+        '??',
+        '--'
+    ])
+    def test_check_name_not_valid_data(self, name):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_name_field().fill_field('@@')
+        self.register_page.get_name_field().fill_field(name)
         self.register_page.get_last_name_field().click()
         assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('##')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('!!')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('$$')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('**')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('::')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('()')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('  ')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('..')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field(',,')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('??')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_name_field().clean_field()
-        self.register_page.get_name_field().fill_field('--')
-        assert self.register_page.get_name_not_valid_data_alert().is_displayed()
 
-    def test_check_last_name_not_valid_data(self):
+    @pytest.mark.parametrize("last_name", [
+        '@@',
+        '##',
+        '!!',
+        '$$',
+        '**',
+        '::',
+        '()',
+        '  ',
+        '..',
+        ',,',
+        '??',
+        '--'
+    ])
+    def test_check_last_name_not_valid_data(self, last_name):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
         self.register_page.get_last_name_field().fill_field('@@')
         self.register_page.get_name_field().click()
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('##')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('!!')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('$$')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('**')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('::')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('()')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('  ')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('..')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field(',,')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('??')
-        assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
-        self.register_page.get_last_name_field().clean_field()
-        self.register_page.get_last_name_field().fill_field('--')
         assert self.register_page.get_last_name_not_valid_data_alert().is_displayed()
 
     def test_check_name_field_length_and_not_valid_data(self):
@@ -205,60 +167,39 @@ class TestRegistration:
         self.register_page.get_name_field().click()
         assert self.register_page.get_last_name_not_valid_length_alert().is_displayed() and self.register_page.get_last_name_not_valid_data_alert().is_displayed()
 
-    def test_check_incorrect_password_field(self):
+    @pytest.mark.parametrize("password", [
+        'password',
+        'PASSWORD',
+        '12345678',
+        'PASSWOR8',
+        'passwor8',
+        'PASSWORd',
+        'PASSWORD123456ppp',
+        '@#$%^&*()*'
+    ])
+    def test_check_incorrect_password_field(self, password):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_password_field().fill_field('password')
+        self.register_page.get_password_field().fill_field(password)
         self.register_page.get_name_field().click()
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('PASSWORD')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('12345678')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('PASSWOR8')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('passwor8')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('PASSWORd')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('PASSWORD123456ppp')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_password_field().clean_field()
-        self.register_page.get_password_field().fill_field('@#$%^&*()*')
         assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
 
-    def test_check_incorrect_repeat_password_field(self):
+
+    @pytest.mark.parametrize("repeat_password", [
+        'password',
+        'PASSWORD',
+        '12345678',
+        'PASSWOR8',
+        'passwor8',
+        'PASSWORd',
+        'PASSWORD123456ppp',
+        '@#$%^&*()*'
+    ])
+    def test_check_incorrect_repeat_password_field(self, repeat_password):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
-        self.register_page.get_repeat_password_field().fill_field('password')
+        self.register_page.get_repeat_password_field().fill_field(repeat_password)
         self.register_page.get_name_field().click()
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('PASSWORD')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('12345678')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('PASSWOR8')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('passwor8')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('PASSWORd')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('PASSWORD123456ppp')
-        assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-        self.register_page.get_repeat_password_field().clean_field()
-        self.register_page.get_repeat_password_field().fill_field('@#$%^&*()*')
         assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
 
     def test_check_passwords_do_not_match(self):

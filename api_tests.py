@@ -1,5 +1,6 @@
 from models.register_post_model import RegisterPostModel
 from models.signin_post_model import SigninPostModel
+import pytest
 import requests
 from driver import Driver
 
@@ -41,28 +42,22 @@ class TestApiChecks:
         except TypeError:
             assert True
 
-    def test_registration_with_incorrect_data(self):
-        data_for_register_user = RegisterPostModel("V", "Fedorchuk", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V")
-        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
+    @pytest.mark.parametrize("name, last_name, email, password, repeat_password, expected_message", [
+        ("V", "Fedorchuk", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V",
+         "Name has to be from 2 to 20 characters long"),
+        ("Vasyl", "F@", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V", "Last Name is invalid"),
+        ("Vasyl", "Fedorchuck", "@gmail.com", "Vasyl1997V", "Vasyl1997V", "Email is incorrect"),
+        ("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "VasylVasyl", "VasylVasyl",
+         "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"),
+        ("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vas1997VV", "Passwords do not match")
+    ])
+    def test_registration_with_incorrect_data(self, name, last_name, email, password, repeat_password,
+                                              expected_message):
+        data_for_register_user = RegisterPostModel(name, last_name, email, password, repeat_password)
+        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
+                                            json=data_for_register_user.__dict__)
         assert registered_user.json()['status'] == 'error'
-        assert registered_user.json()["message"] == "Name has to be from 2 to 20 characters long"
-        data_for_register_user = RegisterPostModel("Vasyl", "F@", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vasyl1997V")
-        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
-        assert registered_user.json()['status'] == 'error'
-        assert registered_user.json()["message"] == "Last Name is invalid"
-        data_for_register_user = RegisterPostModel("Vasyl", "Fedorchuck", "@gmail.com", "Vasyl1997V", "Vasyl1997V")
-        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
-        assert registered_user.json()['status'] == 'error'
-        assert registered_user.json()["message"] == "Email is incorrect"
-        data_for_register_user = RegisterPostModel("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "VasylVasyl", "VasylVasyl")
-        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
-        assert registered_user.json()['status'] == 'error'
-        assert registered_user.json()["message"] == "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"
-        data_for_register_user = RegisterPostModel("Vasyl", "Fedorchuck", "fedorchuck_vasyl@gmail.com", "Vasyl1997V", "Vas1997VV")
-        registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
-        assert registered_user.json()['status'] == 'error'
-        assert registered_user.json()["message"] == "Passwords do not match"
-
+        assert registered_user.json()["message"] == expected_message
     def teardown_method(self):
         pass
 

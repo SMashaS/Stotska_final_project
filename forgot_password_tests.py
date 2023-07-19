@@ -1,4 +1,5 @@
 import time
+import pytest
 from models.register_post_model import RegisterPostModel
 import requests
 from driver import Driver
@@ -53,10 +54,22 @@ class TestForgotPassword:
         self.forgot_password_page.get_send_button().click()
         assert self.forgot_password_page.get_email_required_alert().is_displayed()
 
-    def test_check_email_incorrect_data(self):
+    @pytest.mark.parametrize("email", [
+        '@@hm.co',
+        ' test@test.com',
+        'test@test.com ',
+        'invalid.email@domain',
+        'invalidgmail.com',
+        'inv alid@gmail.com',
+        '@example.com',
+        'user@',
+        'user@.com',
+        'user@example..com'
+    ])
+    def test_check_email_incorrect_data(self, email):
         self.login_page.get_sign_in_button().click()
         self.forgot_password_page.get_forgot_password_button().click()
-        self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field('aa @aa.com')
+        self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field(email)
         self.forgot_password_page.get_send_button().click()
         assert self.forgot_password_page.get_email_not_valid_data_alert().is_displayed()
 
@@ -67,3 +80,4 @@ class TestForgotPassword:
         self.session.delete("https://qauto.forstudy.space/api/users")
 
 # pytest -v forgot_password_tests.py
+
