@@ -2,17 +2,20 @@ import time
 
 import pytest
 from models.register_post_model import RegisterPostModel
+from models.signin_post_model import SigninPostModel
 import requests
 from driver import Driver
 from pages.login_page import LoginPage
 from pages.garage_page import GaragePage
 from pages.settings_page import SettingsPage
+from pages.register_page import RegisterPage
 
 
 class TestsUserSettings:
     def setup_class(self):
         self.driver = Driver.get_chrome_driver()
         self.login_page = LoginPage()
+        self.register_page = RegisterPage()
         self.garage_page = GaragePage()
         self.settings_page = SettingsPage()
         self.session = requests.session()
@@ -52,7 +55,8 @@ class TestsUserSettings:
         assert self.settings_page.get_km_button().is_active()
 
     def test_change_currency_to_uah(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         uah_button = self.settings_page.get_uah_button()
         uah_button.click()
         assert self.settings_page.get_currency_changed_alert().is_displayed()
@@ -62,7 +66,8 @@ class TestsUserSettings:
         self.settings_page.get_usd_button().click()
 
     def test_change_currency_to_eur(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         eur_button = self.settings_page.get_eur_button()
         eur_button.click()
         assert self.settings_page.get_currency_changed_alert().is_displayed()
@@ -72,7 +77,8 @@ class TestsUserSettings:
         self.settings_page.get_usd_button().click()
 
     def test_change_currency_to_pln(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         pln_button = self.settings_page.get_pln_button()
         pln_button.click()
         assert self.settings_page.get_currency_changed_alert().is_displayed()
@@ -82,7 +88,8 @@ class TestsUserSettings:
         self.settings_page.get_usd_button().click()
 
     def test_change_currency_to_gbp(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         gbp_button = self.settings_page.get_gbp_button()
         gbp_button.click()
         assert self.settings_page.get_currency_changed_alert().is_displayed()
@@ -120,7 +127,8 @@ class TestsUserSettings:
         self.settings_page.get_usd_button().click()
 
     def test_change_units_of_distance_to_ml(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         ml_button = self.settings_page.get_ml_button()
         ml_button.click()
         assert self.settings_page.get_units_of_distance_changed_alert().is_displayed()
@@ -130,7 +138,8 @@ class TestsUserSettings:
         self.settings_page.get_km_button().click()
 
     def test_change_units_of_distance_to_km(self):
-        self.settings_page.get_settings_side_menu_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
         self.settings_page.get_ml_button().click()
         km_button = self.settings_page.get_km_button()
         km_button.click()
@@ -154,6 +163,105 @@ class TestsUserSettings:
         changed_button = self.settings_page.get_ml_button()
         assert not changed_button.is_enabled()
         self.settings_page.get_km_button().click()
+
+    def test_check_email_and_password_are_required_in_change_email(self):
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_change_email_button().click()
+        assert self.settings_page.get_email_required_alert().is_displayed()
+        assert self.settings_page.get_password_required_alert().is_displayed()
+
+    @pytest.mark.parametrize("email_address", [
+        '@@hm.co',
+        ' test@test.com',
+        'test@test.com ',
+        'invalid.email@domain',
+        'invalidgmail.com',
+        'inv alid@gmail.com',
+        '@example.com',
+        'user@',
+        'user@.com',
+        'user@example..com'
+    ])
+    def test_check_email_is_incorrect(self, email_address):
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field(email_address)
+        self.settings_page.get_change_email_button().click()
+        assert self.settings_page.get_email_is_incorrect_alert().is_displayed()
+
+    def test_check_wrong_password(self):
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("fedorchuck_artem@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Artsem1997")
+        self.settings_page.get_change_email_button().click()
+        assert self.settings_page.get_wrong_password_alert().is_displayed()
+
+    def test_check_email_already_exists_in_change_email(self):
+        self.garage_page.get_my_profile_button().click()
+        self.garage_page.get_logout_button().click()
+        self.login_page.get_sign_in_button().click()
+        self.register_page.get_registration_button().click()
+        self.register_page.get_name_field().fill_field('Kristina')
+        self.register_page.get_last_name_field().fill_field('Fedorchuk')
+        self.register_page.get_email_field().fill_field('fedorchuck_kristina@gmail.com')
+        self.register_page.get_password_field().fill_field('Kristina1997K')
+        self.register_page.get_repeat_password_field().fill_field('Kristina1997K')
+        self.register_page.get_register_button().click()
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("fedorchuck_artsem@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Kristina1997K")
+        self.settings_page.get_change_email_button().click()
+        time.sleep(2)
+        assert self.settings_page.get_email_already_exists_alert().is_displayed()
+        self.settings_page.get_remove_my_account_button().click()
+        self.settings_page.get_remove_my_account_window_remove_button().click()
+        self.login_page.get_sign_in_button().click()
+        self.login_page.get_email_field().fill_field("fedorchuck_artsem@gmail.com")
+        self.login_page.get_password_field().fill_field("Artsem1997N")
+        self.login_page.get_login_button().click()
+
+    def test_check_successful_change_email(self):
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("test_new_email@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Artsem1997N")
+        self.settings_page.get_change_email_button().click()
+        time.sleep(1)
+        assert self.settings_page.get_email_has_been_changed_alert().is_displayed()
+        self.garage_page.get_my_profile_button().click()
+        self.garage_page.get_logout_button().click()
+        self.login_page.get_sign_in_button().click()
+        self.login_page.get_email_field().fill_field("test_new_email@gmail.com")
+        self.login_page.get_password_field().fill_field("Artsem1997N")
+        self.login_page.get_login_button().click()
+        assert self.garage_page.get_my_profile_button().is_displayed()
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("fedorchuck_artsem@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Artsem1997N")
+        self.settings_page.get_change_email_button().click()
+
+    def test_check_login_with_old_email_after_changing_to_new_one(self):
+        self.settings_page.get_settings_side_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("test_new_email@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Artsem1997N")
+        self.settings_page.get_change_email_button().click()
+        time.sleep(1)
+        self.garage_page.get_my_profile_button().click()
+        self.garage_page.get_logout_button().click()
+        self.login_page.get_sign_in_button().click()
+        self.login_page.get_email_field().fill_field("fedorchuck_artsem@gmail.com")
+        self.login_page.get_password_field().fill_field("Artsem1997N")
+        self.login_page.get_login_button().click()
+        time.sleep(1)
+        assert self.login_page.get_wrong_email_or_password_alert().is_displayed()
+        self.login_page.get_email_field().clean_field()
+        self.login_page.get_email_field().fill_field("test_new_email@gmail.com")
+        self.login_page.get_password_field().clean_field()
+        self.login_page.get_password_field().fill_field("Artsem1997N")
+        self.login_page.get_login_button().click()
+        self.garage_page.get_my_profile_button().click()
+        self.settings_page.get_settings_dropdown_menu_button().click()
+        self.settings_page.get_new_email_address_field().fill_field("fedorchuck_artsem@gmail.com")
+        self.settings_page.get_change_email_password_field().fill_field("Artsem1997N")
+        self.settings_page.get_change_email_button().click()
 
     def teardown_method(self):
         time.sleep(5)

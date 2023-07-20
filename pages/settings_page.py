@@ -42,6 +42,9 @@ class SettingsPage(BasePageWithDriver):
         self._remove_my_account_window_cancel_button = None
         self._remove_my_account_window_remove_button = None
         self._user_account_has_been_removed_alert = None
+        self._change_email_button = None
+        self._change_password_button = None
+        self._email_already_exists_alert = None
 
     def get_settings_side_menu_button(self):
         self._settings_side_menu_button = Button(self._driver.find_element(By.XPATH, "//a[@class='btn btn-white btn-sidebar sidebar_btn' and contains(text(), 'Settings')]"))
@@ -178,3 +181,15 @@ class SettingsPage(BasePageWithDriver):
     def get_user_account_has_been_removed_alert(self):
         self._user_account_has_been_removed_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='User account has been removed']"))
         return self._user_account_has_been_removed_alert
+
+    def get_change_email_button(self):
+        self._change_email_button = Button(self._driver.find_element(By.XPATH, "//button[text()='Change email']"))
+        return self._change_email_button
+
+    def get_email_already_exists_alert(self):
+        self._email_already_exists_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email already exists']"))
+        return self._email_already_exists_alert
+
+    def get_change_password_button(self):
+        self._change_password_button = Button(self._driver.find_element(By.XPATH, "//button[text()='Change password']"))
+        return self._change_password_button
