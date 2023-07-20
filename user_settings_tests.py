@@ -11,7 +11,7 @@ from pages.settings_page import SettingsPage
 from pages.register_page import RegisterPage
 
 
-class TestsUserSettings:
+class TestUserSettings:
     def setup_class(self):
         self.driver = Driver.get_chrome_driver()
         self.login_page = LoginPage()
