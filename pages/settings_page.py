@@ -151,7 +151,7 @@ class SettingsPage(BasePageWithDriver):
         return self._new_re_enter_passwords_incorrect_alert
 
     def get_passwords_do_not_match_alert(self):
-        self._passwords_do_not_match_alert = Label(self._driver.find_element(By.XPATH, "Passwords do not match"))
+        self._passwords_do_not_match_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Passwords do not match']"))
         return self._passwords_do_not_match_alert
 
     def get_new_password_should_not_be_the_same_alert(self):
