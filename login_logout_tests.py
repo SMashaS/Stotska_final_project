@@ -16,8 +16,8 @@ class TestLoginLogout:
         self.garage_page = GaragePage()
         self.register_page = RegisterPage()
         self.session = requests.session()
-        register_user_data = RegisterPostModel("Vasyl", "Fedorchuk", "fedorchuck_vasyl@gmail.com",
-                                               "Vasyl1997V", "Vasyl1997V")
+        register_user_data = RegisterPostModel("Valeria", "Fedorchuk", "fedorchuck_valeria@gmail.com",
+                                               "Valeria1997V", "Valeria1997V")
         self.session.post("https://qauto.forstudy.space/api/auth/signup", json=register_user_data.__dict__)
 
     def setup_method(self):
@@ -39,8 +39,8 @@ class TestLoginLogout:
 
     def test_check_successful_login_with_unchecked_remember_me_button(self):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('fedorchuck_vasyl@gmail.com')
-        self.login_page.get_password_field().fill_field('Vasyl1997V')
+        self.login_page.get_email_field().fill_field('fedorchuck_valeria@gmail.com')
+        self.login_page.get_password_field().fill_field('Valeria1997V')
         assert not self.login_page.get_remember_me_checkbox().is_checked()
         self.login_page.get_login_button().click()
         assert self.garage_page.get_my_profile_button().is_displayed()
@@ -49,8 +49,8 @@ class TestLoginLogout:
 
     def test_check_successful_login_with_checked_remember_me_checkbox(self):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('fedorchuck_vasyl@gmail.com')
-        self.login_page.get_password_field().fill_field('Vasyl1997V')
+        self.login_page.get_email_field().fill_field('fedorchuck_valeria@gmail.com')
+        self.login_page.get_password_field().fill_field('Valeria1997V')
         self.login_page.get_remember_me_checkbox().check()
         assert self.login_page.get_remember_me_checkbox().is_checked()
         self.login_page.get_login_button().click()
@@ -60,7 +60,7 @@ class TestLoginLogout:
 
     def test_check_login_with_not_registered_user(self):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('fadorchuck_vasyl@gmail.com')
+        self.login_page.get_email_field().fill_field('fedorchuck_val@gmail.com')
         self.login_page.get_password_field().fill_field('Vasyl1993V')
         self.login_page.get_login_button().click()
         assert self.login_page.get_wrong_email_or_password_alert().is_displayed()
@@ -97,8 +97,8 @@ class TestLoginLogout:
 
     def test_user_logout(self):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('fedorchuck_vasyl@gmail.com')
-        self.login_page.get_password_field().fill_field('Vasyl1997V')
+        self.login_page.get_email_field().fill_field('fedorchuck_valeria@gmail.com')
+        self.login_page.get_password_field().fill_field('Valeria1997V')
         self.login_page.get_login_button().click()
         self.garage_page.get_my_profile_button().click()
         self.garage_page.get_logout_button().click()
@@ -106,8 +106,8 @@ class TestLoginLogout:
 
     def test_user_logout_via_side_menu(self):
         self.login_page.get_sign_in_button().click()
-        self.login_page.get_email_field().fill_field('fedorchuck_vasyl@gmail.com')
-        self.login_page.get_password_field().fill_field('Vasyl1997V')
+        self.login_page.get_email_field().fill_field('fedorchuck_valeria@gmail.com')
+        self.login_page.get_password_field().fill_field('Valeria1997V')
         self.login_page.get_login_button().click()
         self.garage_page.get_my_profile_button().click()
         self.garage_page.get_logout_button_side_menu().click()
@@ -117,6 +117,8 @@ class TestLoginLogout:
         pass
 
     def teardown_class(self):
+        sign_in_data = SigninPostModel("fedorchuck_valeria@gmail.com", "Valeria1997V", "False")
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=sign_in_data.__dict__)
         self.session.delete("https://qauto.forstudy.space/api/users")
 
 # pytest -v login_logout_tests.py

@@ -1,6 +1,7 @@
 import time
 import pytest
 from models.register_post_model import RegisterPostModel
+from models.signin_post_model import SigninPostModel
 import requests
 from driver import Driver
 from pages.login_page import LoginPage
@@ -16,8 +17,8 @@ class TestForgotPassword:
         self.garage_page = GaragePage()
         self.forgot_password_page = ForgotPasswordPage()
         self.session = requests.session()
-        register_user_data = RegisterPostModel("Vasyl", "Fedorchuk", "fedorchuck_vasyl@gmail.com",
-                                               "Vasyl1997V", "Vasyl1997V")
+        register_user_data = RegisterPostModel("Maya", "Fedorchuk", "fedorchuck_maya@gmail.com",
+                                               "Maya1997M", "Maya1997M")
         self.session.post("https://qauto.forstudy.space/api/auth/signup", json=register_user_data.__dict__)
 
     def setup_method(self):
@@ -43,7 +44,7 @@ class TestForgotPassword:
     def test_successful_send_restore_access(self):
         self.login_page.get_sign_in_button().click()
         self.forgot_password_page.get_forgot_password_button().click()
-        self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field('ferchuck_vasyl@gmail.com')
+        self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field('fedorchuck_maya1@gmail.com')
         self.forgot_password_page.get_send_button().click()
         assert self.forgot_password_page.get_successful_alert_instructions_are_sent().is_displayed()
 
@@ -77,6 +78,8 @@ class TestForgotPassword:
         pass
 
     def teardown_class(self):
+        sign_in_data = SigninPostModel("fedorchuck_maya@gmail.com", "Maya1997M", "False")
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=sign_in_data.__dict__)
         self.session.delete("https://qauto.forstudy.space/api/users")
 
 # pytest -v forgot_password_tests.py

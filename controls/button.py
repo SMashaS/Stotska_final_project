@@ -10,3 +10,6 @@ class Button(BaseControl):
 
     def is_enabled(self):
         self.element.is_enabled()
+
+    def is_active(self):
+        return "active" in self.element.get_attribute("class")

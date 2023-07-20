@@ -2,44 +2,50 @@ from models.register_post_model import RegisterPostModel
 from models.signin_post_model import SigninPostModel
 import pytest
 import requests
-from driver import Driver
 
 
 class TestApiChecks:
+    sign_in_data = SigninPostModel("fedorchuck_alexa@gmail.com", "Alexa1997A", "False")
+
     def setup_class(self):
-        self.driver = Driver.get_chrome_driver()
         self.session = requests.session()
-        register_user_data = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
-                                               "Egor1997E", "Egor1997E")
+        register_user_data = RegisterPostModel("Alex", "Fedorchuk", "fedorchuck_alexa@gmail.com",
+                                               "Alexa1997A", "Alexa1997A")
         self.session.post("https://qauto.forstudy.space/api/auth/signup", json=register_user_data.__dict__)
 
     def setup_method(self):
-        self.driver.get("https://guest:welcome2qauto@qauto.forstudy.space/")
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
 
     def test_check_successful_registration_api(self):
         self.session.delete("https://qauto.forstudy.space/api/users")
-        data_for_register_user = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
-                                               "Egor1997E", "Egor1997E")
+        data_for_register_user = RegisterPostModel("Alexa", "Fedorchuk", "fedorchuck_alexa@gmail.com",
+                                               "Alexa1997A", "Alexa1997A")
         registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()["status"] == "ok"
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
 
     def test_check_registration_with_registered_user(self):
-        data_for_register_user = RegisterPostModel("Egor", "Fedorchuk", "fedorchuck_egor@gmail.com",
-                                                   "Egor1997E", "Egor1997E")
+        self.session.get("https://qauto2.forstudy.space/api/auth/logout")
+        data_for_register_user = RegisterPostModel("Alexa", "Fedorchuk", "fedorchuck_alexa@gmail.com",
+                                               "Alexa1997A", "Alexa1997A")
         registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()["status"] == "error"
         assert registered_user.json()["message"] == "User already exists"
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
+
 
     def test_check_registration_with_no_full_data(self):
+        self.session.get("https://qauto2.forstudy.space/api/auth/logout")
         try:
-            data_for_register_user = RegisterPostModel(name="Ivan", email="ivan_fedorchuck@gmail.com",
-                                                       password="Ivan1997I", repeat_password="Ivan1997I")
+            data_for_register_user = RegisterPostModel(name="Alexa", email="lex_fedorchuck@gmail.com",
+                                                       password="Alexa1997A", repeat_password="Alexa1997A")
             self.session.post("https://qauto.forstudy.space/api/auth/signup", json=data_for_register_user.__dict__)
             assert False
         except TypeError:
             assert True
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
 
     @pytest.mark.parametrize("name, last_name, email, password, repeat_password, expected_message", [
         ("E", "Fedorchuk", "fedorchuck_egor@gmail.com", "Egor1997E", "Egor1997E",
@@ -52,16 +58,19 @@ class TestApiChecks:
     ])
     def test_registration_with_incorrect_data(self, name, last_name, email, password, repeat_password,
                                               expected_message):
+        self.session.get("https://qauto2.forstudy.space/api/auth/logout")
         data_for_register_user = RegisterPostModel(name, last_name, email, password, repeat_password)
         registered_user = self.session.post("https://qauto.forstudy.space/api/auth/signup",
                                             json=data_for_register_user.__dict__)
         assert registered_user.json()['status'] == 'error'
         assert registered_user.json()["message"] == expected_message
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
 
     def teardown_method(self):
-        pass
+        self.session.get("https://qauto2.forstudy.space/api/auth/logout")
 
     def teardown_class(self):
+        self.session.post("https://qauto.forstudy.space/api/auth/signin", json=TestApiChecks.sign_in_data.__dict__)
         self.session.delete("https://qauto.forstudy.space/api/users")
 
 # pytest -v api_tests.py
