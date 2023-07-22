@@ -5,5 +5,3 @@ class UpdateUserProfileModel:
         self.lastName = last_name
         self.dateBirth = date_birth
         self.country = country
-
-

@@ -1,5 +1,6 @@
 from .base_control import BaseControl
 
+
 class CheckBox(BaseControl):
     def __init__(self, checkbox_element):
         super().__init__(checkbox_element)

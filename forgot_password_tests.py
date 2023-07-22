@@ -44,6 +44,7 @@ class TestForgotPassword:
     def test_successful_send_restore_access(self):
         self.login_page.get_sign_in_button().click()
         self.forgot_password_page.get_forgot_password_button().click()
+        time.sleep(5)
         self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field('fedorchuck_maya1@gmail.com')
         self.forgot_password_page.get_send_button().click()
         assert self.forgot_password_page.get_successful_alert_instructions_are_sent().is_displayed()
@@ -51,8 +52,9 @@ class TestForgotPassword:
     def test_check_email_is_required(self):
         self.login_page.get_sign_in_button().click()
         self.forgot_password_page.get_forgot_password_button().click()
+        time.sleep(1)
         self.forgot_password_page.get_email_field_in_forgot_password_page().click()
-        self.forgot_password_page.get_send_button().click()
+        self.driver.execute_script("document.activeElement.blur();")
         assert self.forgot_password_page.get_email_required_alert().is_displayed()
 
     @pytest.mark.parametrize("email", [
@@ -70,8 +72,9 @@ class TestForgotPassword:
     def test_check_email_incorrect_data(self, email):
         self.login_page.get_sign_in_button().click()
         self.forgot_password_page.get_forgot_password_button().click()
+        time.sleep(3)
         self.forgot_password_page.get_email_field_in_forgot_password_page().fill_field(email)
-        self.forgot_password_page.get_send_button().click()
+        self.driver.execute_script("document.activeElement.blur();")
         assert self.forgot_password_page.get_email_not_valid_data_alert().is_displayed()
 
     def teardown_method(self):
