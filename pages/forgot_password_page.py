@@ -21,7 +21,8 @@ class ForgotPasswordPage(BasePageWithDriver):
         return self._forgot_password_button
 
     def get_close_forgot_password_page_button(self):
-        self._close_forgot_password_page_button = Button(self._driver.find_element(By.XPATH, "//button[@class='close']"))
+        self._close_forgot_password_page_button = Button(self._driver.find_element(By.XPATH,
+                                                                                   "//button[@class='close']"))
         return self._close_forgot_password_page_button
 
     def get_send_button(self):
@@ -29,7 +30,8 @@ class ForgotPasswordPage(BasePageWithDriver):
         return self._send_button
 
     def get_email_field_in_forgot_password_page(self):
-        self._email_field_in_forgot_password_page = TextBox(self._driver.find_element(By.XPATH, "//input[@name='email']"))
+        self._email_field_in_forgot_password_page = TextBox(self._driver.find_element(By.XPATH,
+                                                                                      "//input[@name='email']"))
         return self._email_field_in_forgot_password_page
 
     def get_email_required_alert(self):
@@ -37,9 +39,11 @@ class ForgotPasswordPage(BasePageWithDriver):
         return self._email_required_alert
 
     def get_email_not_valid_data_alert(self):
-        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email is incorrect']"))
+        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH,
+                                                                           "//p[text()='Email is incorrect']"))
         return self._email_not_valid_data_alert
 
     def get_successful_alert_instructions_are_sent(self):
-        self._successful_alert_instructions_are_sent = Label(self._driver.find_element(By.XPATH, "//p[text()='Email with restore instructions was sent']"))
+        self._successful_alert_instructions_are_sent = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Email with restore instructions was sent']"))
         return self._successful_alert_instructions_are_sent

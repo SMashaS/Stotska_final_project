@@ -79,7 +79,8 @@ class RegisterPage(BasePageWithDriver):
         return self._password_required_alert
 
     def get_repeat_password_required_alert(self):
-        self._repeat_password_required_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Re-enter password required']"))
+        self._repeat_password_required_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Re-enter password required']"))
         return self._repeat_password_required_alert
 
     def get_name_not_valid_length_alert(self):
@@ -93,12 +94,14 @@ class RegisterPage(BasePageWithDriver):
         return self._last_name_not_valid_length_alert
 
     def get_email_not_valid_data_alert(self):
-        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email is incorrect']"))
+        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH,
+                                                                           "//p[text()='Email is incorrect']"))
         return self._email_not_valid_data_alert
 
     def get_password_repeat_password_not_valid_data_alert(self):
         self._password_repeat_password_not_valid_data_alert = Label(self._driver.find_element(
-            By.XPATH, "//p[text()='Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter']"))
+            By.XPATH, "//p[text()='Password has to be from 8 to 15 characters "
+                      "long and contain at least one integer, one capital, and one small letter']"))
         return self._password_repeat_password_not_valid_data_alert
 
     def get_user_exists_alert(self):
@@ -110,7 +113,8 @@ class RegisterPage(BasePageWithDriver):
         return self._name_not_valid_data_alert
 
     def get_last_name_not_valid_data_alert(self):
-        self._last_name_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Last name is invalid']"))
+        self._last_name_not_valid_data_alert = Label(self._driver.find_element(By.XPATH,
+                                                                               "//p[text()='Last name is invalid']"))
         return self._last_name_not_valid_data_alert
 
     def get_passwords_do_not_match_alert(self):

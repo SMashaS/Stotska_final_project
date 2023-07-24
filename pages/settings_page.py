@@ -47,11 +47,13 @@ class SettingsPage(BasePageWithDriver):
         self._email_already_exists_alert = None
 
     def get_settings_side_menu_button(self):
-        self._settings_side_menu_button = Button(self._driver.find_element(By.XPATH, "//a[@class='btn btn-white btn-sidebar sidebar_btn' and contains(text(), 'Settings')]"))
+        self._settings_side_menu_button = Button(self._driver.find_element(
+            By.XPATH, "//a[@class='btn btn-white btn-sidebar sidebar_btn' and contains(text(), 'Settings')]"))
         return self._settings_side_menu_button
 
     def get_settings_dropdown_menu_button(self):
-        self._settings_dropdown_menu_button = Button(self._driver.find_element(By.XPATH, "//a[text()='Settings']"))
+        self._settings_dropdown_menu_button = Button(self._driver.find_element(
+            By.XPATH, "//a[text()='Settings']"))
         return self._settings_dropdown_menu_button
 
     def get_usd_button(self):
@@ -87,7 +89,8 @@ class SettingsPage(BasePageWithDriver):
         return self._currency_changed_alert
 
     def get_units_of_distance_changed_alert(self):
-        self._units_of_distance_changed_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Units of distance changed']"))
+        self._units_of_distance_changed_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Units of distance changed']"))
         return self._units_of_distance_changed_alert
 
     def get_new_email_address_field(self):
@@ -115,11 +118,13 @@ class SettingsPage(BasePageWithDriver):
         return self._wrong_password_alert
 
     def get_email_has_been_changed_alert(self):
-        self._email_has_been_changed_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email has been changed']"))
+        self._email_has_been_changed_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Email has been changed']"))
         return self._email_has_been_changed_alert
 
     def get_email_should_not_be_the_same_alert(self):
-        self._email_should_not_be_the_same_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='The email should not be the same']"))
+        self._email_should_not_be_the_same_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='The email should not be the same']"))
         return self._email_should_not_be_the_same_alert
 
     def get_old_password_field(self):
@@ -135,51 +140,64 @@ class SettingsPage(BasePageWithDriver):
         return self._re_enter_new_password_field
 
     def get_old_password_required_alert(self):
-        self._old_password_required_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Old password required']"))
+        self._old_password_required_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Old password required']"))
         return self._old_password_required_alert
 
     def get_new_password_required_alert(self):
-        self._new_password_required_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='New password required']"))
+        self._new_password_required_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='New password required']"))
         return self._new_password_required_alert
 
     def get_re_enter_password_required_alert(self):
-        self._re_enter_password_required_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Re-enter password required']"))
+        self._re_enter_password_required_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Re-enter password required']"))
         return self._re_enter_password_required_alert
 
     def get_new_re_enter_passwords_incorrect_alert(self):
-        self._new_re_enter_passwords_incorrect_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter']"))
+        self._new_re_enter_passwords_incorrect_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Password has to be from 8 to 15 characters long and contain at least "
+                      "one integer, one capital, and one small letter']"))
         return self._new_re_enter_passwords_incorrect_alert
 
     def get_passwords_do_not_match_alert(self):
-        self._passwords_do_not_match_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Passwords do not match']"))
+        self._passwords_do_not_match_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Passwords do not match']"))
         return self._passwords_do_not_match_alert
 
     def get_new_password_should_not_be_the_same_alert(self):
-        self._new_password_should_not_be_the_same_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='New password should not be the same']"))
+        self._new_password_should_not_be_the_same_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='New password should not be the same']"))
         return self._new_password_should_not_be_the_same_alert
 
     def get_password_has_been_changed_alert(self):
-        self._password_has_been_changed_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Password has been changed']"))
+        self._password_has_been_changed_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Password has been changed']"))
         return self._password_has_been_changed_alert
 
     def get_remove_my_account_button(self):
-        self._remove_my_account_button = Button(self._driver.find_element(By.XPATH, "//button[text()='Remove my account']"))
+        self._remove_my_account_button = Button(self._driver.find_element(
+            By.XPATH, "//button[text()='Remove my account']"))
         return self._remove_my_account_button
 
     def get_remove_my_account_window_x_button(self):
-        self._remove_my_account_window_x_button = Button(self._driver.find_element(By.XPATH, "//button[@class='close']"))
+        self._remove_my_account_window_x_button = Button(self._driver.find_element(
+            By.XPATH, "//button[@class='close']"))
         return self._remove_my_account_window_x_button
 
     def get_remove_my_account_window_cancel_button(self):
-        self._remove_my_account_window_cancel_button = Button(self._driver.find_element(By.XPATH, "//button[text()='Cancel']"))
+        self._remove_my_account_window_cancel_button = Button(self._driver.find_element(
+            By.XPATH, "//button[text()='Cancel']"))
         return self._remove_my_account_window_cancel_button
 
     def get_remove_my_account_window_remove_button(self):
-        self._remove_my_account_window_remove_button = Button(self._driver.find_element(By.XPATH, "//button[text()='Remove']"))
+        self._remove_my_account_window_remove_button = Button(self._driver.find_element(
+            By.XPATH, "//button[text()='Remove']"))
         return self._remove_my_account_window_remove_button
 
     def get_user_account_has_been_removed_alert(self):
-        self._user_account_has_been_removed_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='User account has been removed']"))
+        self._user_account_has_been_removed_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='User account has been removed']"))
         return self._user_account_has_been_removed_alert
 
     def get_change_email_button(self):
@@ -187,7 +205,8 @@ class SettingsPage(BasePageWithDriver):
         return self._change_email_button
 
     def get_email_already_exists_alert(self):
-        self._email_already_exists_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email already exists']"))
+        self._email_already_exists_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='Email already exists']"))
         return self._email_already_exists_alert
 
     def get_change_password_button(self):

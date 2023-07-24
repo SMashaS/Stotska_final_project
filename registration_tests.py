@@ -125,7 +125,8 @@ class TestRegistration:
         '..',
         ',,',
         '??',
-        '--'
+        '--',
+        '45'
     ])
     def test_check_name_not_valid_data(self, name):
         self.login_page.get_sign_in_button().click()
@@ -146,7 +147,8 @@ class TestRegistration:
         '..',
         ',,',
         '??',
-        '--'
+        '--',
+        '45'
     ])
     def test_check_last_name_not_valid_data(self, last_name):
         self.login_page.get_sign_in_button().click()
@@ -160,14 +162,16 @@ class TestRegistration:
         self.register_page.get_registration_button().click()
         self.register_page.get_name_field().fill_field('@')
         self.register_page.get_last_name_field().click()
-        assert self.register_page.get_name_not_valid_length_alert().is_displayed() and self.register_page.get_name_not_valid_data_alert().is_displayed()
+        assert self.register_page.get_name_not_valid_length_alert().is_displayed() \
+               and self.register_page.get_name_not_valid_data_alert().is_displayed()
 
     def test_check_last_name_field_length_and_not_valid_data(self):
         self.login_page.get_sign_in_button().click()
         self.register_page.get_registration_button().click()
         self.register_page.get_last_name_field().fill_field('@')
         self.register_page.get_name_field().click()
-        assert self.register_page.get_last_name_not_valid_length_alert().is_displayed() and self.register_page.get_last_name_not_valid_data_alert().is_displayed()
+        assert self.register_page.get_last_name_not_valid_length_alert().is_displayed() \
+               and self.register_page.get_last_name_not_valid_data_alert().is_displayed()
 
     @pytest.mark.parametrize("password", [
         'password',
@@ -185,7 +189,6 @@ class TestRegistration:
         self.register_page.get_password_field().fill_field(password)
         self.register_page.get_name_field().click()
         assert self.register_page.get_password_repeat_password_not_valid_data_alert().is_displayed()
-
 
     @pytest.mark.parametrize("repeat_password", [
         'password',

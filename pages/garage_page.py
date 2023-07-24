@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 from .base_page_with_driver import BasePageWithDriver
 from controls.button import Button
-from controls.textbox import TextBox
 from controls.label import Label
 
 
@@ -22,7 +21,8 @@ class GaragePage(BasePageWithDriver):
         return self._logout_button
 
     def get_successful_login_alert(self):
-        self._successful_login_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='You have been successfully logged in']"))
+        self._successful_login_alert = Label(self._driver.find_element(
+            By.XPATH, "//p[text()='You have been successfully logged in']"))
         return self._successful_login_alert
 
     def get_logout_button_side_menu(self):

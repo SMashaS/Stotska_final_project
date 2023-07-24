@@ -10,7 +10,7 @@ class LoginPage(BasePageWithDriver):
     def __init__(self):
         super().__init__()
         self._sign_in_button = None
-        self._close_button =None
+        self._close_button = None
         self._login_button = None
         self._email_field = None
         self._password_field = None
@@ -53,9 +53,11 @@ class LoginPage(BasePageWithDriver):
         return self._password_required_alert
 
     def get_email_not_valid_data_alert(self):
-        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Email is incorrect']"))
+        self._email_not_valid_data_alert = Label(self._driver.find_element(By.XPATH,
+                                                                           "//p[text()='Email is incorrect']"))
         return self._email_not_valid_data_alert
 
     def get_wrong_email_or_password_alert(self):
-        self._wrong_email_or_password_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Wrong email or password']"))
+        self._wrong_email_or_password_alert = Label(self._driver.find_element(By.XPATH,
+                                                                              "//p[text()='Wrong email or password']"))
         return self._wrong_email_or_password_alert

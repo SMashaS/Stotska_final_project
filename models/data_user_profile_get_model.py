@@ -7,4 +7,3 @@ class DataUserProfileGetModel:
 
     def __str__(self):
         return self.__dict__
-

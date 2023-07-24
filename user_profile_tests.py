@@ -135,7 +135,8 @@ class TestUserProfile:
         '..',
         ',,',
         '??',
-        '--'
+        '--',
+        '45'
     ])
     def test_not_valid_data_alert_last_name_appears(self, last_name):
         self.garage_page.get_my_profile_button().click()
@@ -163,7 +164,8 @@ class TestUserProfile:
         '..',
         ',,',
         '??',
-        '--'
+        '--',
+        '45'
     ])
     def test_not_valid_data_alert_name_appears(self, name):
         self.garage_page.get_my_profile_button().click()
@@ -225,7 +227,8 @@ class TestUserProfile:
         self.profile_page.get_edit_profile_name_field().fill_field('@')
         self.profile_page.get_edit_profile_last_name_field().click()
         try:
-            assert self.profile_page.get_edit_profile_name_incorrect_data_alert().is_displayed() and self.profile_page.get_edit_profile_name_not_valid_data_alert().is_displayed()
+            assert self.profile_page.get_edit_profile_name_incorrect_data_alert().is_displayed()\
+                   and self.profile_page.get_edit_profile_name_not_valid_data_alert().is_displayed()
         finally:
             self.profile_page.get_edit_profile_x_button().click()
 
@@ -239,7 +242,8 @@ class TestUserProfile:
         self.profile_page.get_edit_profile_last_name_field().fill_field('@')
         self.profile_page.get_edit_profile_name_field().click()
         try:
-            assert self.profile_page.get_edit_profile_last_name_incorrect_data_alert().is_displayed() and self.profile_page.get_edit_profile_last_name_not_valid_data_alert().is_displayed()
+            assert self.profile_page.get_edit_profile_last_name_incorrect_data_alert().is_displayed() \
+                   and self.profile_page.get_edit_profile_last_name_not_valid_data_alert().is_displayed()
         finally:
             self.profile_page.get_edit_profile_x_button().click()
 
@@ -287,7 +291,8 @@ class TestUserProfile:
         '..',
         ',,',
         '??',
-        '--'
+        '--',
+        '45'
     ])
     def test_not_valid_data_alert_country_appears(self, country):
         self.garage_page.get_my_profile_button().click()
@@ -361,7 +366,8 @@ class TestUserProfile:
         self.profile_page.get_edit_profile_birthday_field().fill_field(birthday)
         self.profile_page.get_edit_profile_country_field().click()
         try:
-            assert not self.profile_page.get_edit_profile_save_button().is_enabled() and self.profile_page.get_edit_profile_birthday_not_valid_data_alert().is_displayed()
+            assert not self.profile_page.get_edit_profile_save_button().is_enabled() \
+                   and self.profile_page.get_edit_profile_birthday_not_valid_data_alert().is_displayed()
         finally:
             self.profile_page.get_edit_profile_x_button().click()
 
@@ -380,7 +386,8 @@ class TestUserProfile:
         self.profile_page.get_edit_profile_birthday_field().fill_field(birthday)
         self.profile_page.get_edit_profile_country_field().click()
         try:
-            assert not self.profile_page.get_edit_profile_save_button().is_enabled() and self.profile_page.get_edit_profile_birthday_incorrect_data_alert().is_displayed()
+            assert not self.profile_page.get_edit_profile_save_button().is_enabled() \
+                   and self.profile_page.get_edit_profile_birthday_incorrect_data_alert().is_displayed()
         finally:
             self.profile_page.get_edit_profile_x_button().click()
 

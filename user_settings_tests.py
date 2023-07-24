@@ -1,5 +1,4 @@
 import time
-
 import pytest
 from models.register_post_model import RegisterPostModel
 import requests
