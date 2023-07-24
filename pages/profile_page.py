@@ -4,6 +4,8 @@ from controls.button import Button
 from controls.textbox import TextBox
 from controls.label import Label
 from controls.image_box import ImageBox
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class ProfilePage(BasePageWithDriver):
@@ -29,6 +31,10 @@ class ProfilePage(BasePageWithDriver):
         self._user_profile_has_been_updated_alert = None
         self._edit_profile_birthday_field = None
         self._edit_profile_country_field = None
+        self._edit_profile_country_not_valid_data_alert = None
+        self._edit_profile_birthday_not_valid_data_alert = None
+        self._edit_profile_country_incorrect_data_alert = None
+        self._edit_profile_birthday_incorrect_data_alert = None
         self._edit_profile_photo_select_field = None
 
     def get_profile_side_menu_button(self):
@@ -115,5 +121,18 @@ class ProfilePage(BasePageWithDriver):
         self._user_profile_has_been_updated_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='User profile has been updated']"))
         return self._user_profile_has_been_updated_alert
 
+    def get_edit_profile_country_not_valid_data_alert(self):
+        self._edit_profile_country_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Country is invalid']"))
+        return self._edit_profile_country_not_valid_data_alert
 
-# //span[@class='icon icon-country']/following-sibling::span[@class='profile-info_text']
+    def get_edit_profile_birthday_not_valid_data_alert(self):
+        self._edit_profile_birthday_not_valid_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Birthday is invalid']"))
+        return self._edit_profile_birthday_not_valid_data_alert
+
+    def get_edit_profile_country_incorrect_data_alert(self):
+        self._edit_profile_country_incorrect_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Country has to be from 2 to 20 characters long']"))
+        return self._edit_profile_country_incorrect_data_alert
+
+    def get_edit_profile_birthday_incorrect_data_alert(self):
+        self._edit_profile_birthday_incorrect_data_alert = Label(self._driver.find_element(By.XPATH, "//p[text()='Birthday is incorrect']"))
+        return self._edit_profile_birthday_incorrect_data_alert
