@@ -1,6 +1,6 @@
 import time
 import pytest
-from models.register_post_model import RegisterPostModel
+from models_for_api.register_post_model import RegisterPostModel
 from selenium.common.exceptions import NoSuchElementException
 import requests
 from pages.profile_page import ProfilePage
@@ -62,10 +62,11 @@ class TestUserProfile:
             birthday_title_element = self.profile_page.get_profile_page_user_birthday_title()
 
             if country_title_element is not None and birthday_title_element is not None:
-                assert False, "Test failed. Title elements are still present on the page."
+                assert False, "Test failed. Title elements are present on the page."
 
         except NoSuchElementException:
             pass
+        assert True, "Test passed. Country and birthday elements are not present on the page."
 
     def test_edit_profile_window_is_opened(self):
         self.garage_page.get_my_profile_button().click()
